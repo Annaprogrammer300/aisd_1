@@ -20,8 +20,21 @@ public:
 
 	~Matrix();
 
+	T& operator()(int row, int col);
+	const T& operator()(int row, int col) const;
+
+	Matrix<T>& operator+=(const Matrix<T>& other);
+	Matrix<T> operator+(const Matrix<T>& other) const;
+	Matrix<T> operator-(const Matrix<T>& other) const;
+	Matrix<T> operator*(const Matrix<T>& other) const;
+	Matrix<T> operator*(const T scalar) const;
+	Matrix<double> operator/(const T scalar) const;
+
 	int get_rows() const;
 	int get_cols() const;
+
+	T Trace() const;
+	void Print() const;
 
 	
 private:
@@ -97,4 +110,13 @@ Matrix<T>::Matrix(const Matrix<T>& other) : rows_(other.rows_), cols_(other.cols
 			data_[i][j] = other.data_[i][j];
 		}
 	}
+}
+
+template <typename T>
+Matrix<T>::~Matrix() {
+	for (int i = 0; i < rows_; ++i) {
+		delete[] data_[i];
+	}
+	delete[] data_;
+	data_ = nullptr;
 }
